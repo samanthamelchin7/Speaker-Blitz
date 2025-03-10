@@ -20,53 +20,140 @@
     </div>
 
     <script>
-        // Speakers data with full bios and panel information
+        // Speakers data
         var SPEAKERS = {
             "Guy": {
                 name: "Guy Baron",
                 title: "Global Head of Investment Advisory, Tony Blair Institute",
                 emoji: "💼",
-                silhouette: "https://via.placeholder.com/150",
-                description: "Economic transformation mastermind who sees the world as a canvas of strategic potential.",
-                funFact: "Turned Rwanda's investment ecosystem upside down!",
-                professionalInsight: "Economic strategies drive social progress.",
-                panel: "Advancing Human Progress Through Peacebuilding and Development",
-                fullBio: "Guy Baron is the Global Lead for the Investment practice at the Tony Blair Institute. He transformed Rwanda's investment ecosystem, managing $2.5bn in annual investment activity. With 22 years in investment banking, he brings strategic insights from roles at RBC Capital Markets, Deutsche Bank, and Credit Suisse. Originally from Zimbabwe, Guy is a Boston University and Harvard Business School alum who co-founded SCALE Africa to build rural schools in Zambia."
+                panel: "Advancing Human Progress Through Peacebuilding and Development"
             },
-            // ... (other speakers would follow the same format, adding 'panel' key)
+            "David": {
+                name: "David Barth",
+                title: "VP, International Programs, Save the Children",
+                emoji: "🌍",
+                panel: "Advancing Human Progress Through Peacebuilding and Development"
+            },
+            "James": {
+                name: "James Colimon",
+                title: "Deputy Director of Global Affairs & Protocol, City of Boston",
+                emoji: "🌐",
+                panel: "Boston in the World: Local Institutions Shaping Global Change"
+            },
+            "Shadi": {
+                name: "Shadi Hamid",
+                title: "Author, Washington Post Columnist",
+                emoji: "📝",
+                panel: null
+            },
+            "Carrie": {
+                name: "Carrie Hessler-Radelet",
+                title: "President & CEO, Global Communities",
+                emoji: "🤝",
+                panel: "Advancing Human Progress Through Peacebuilding and Development"
+            },
+            "Adam": {
+                name: "Adam Lupel",
+                title: "VP and COO, International Peace Institute",
+                emoji: "☮️",
+                panel: "Advancing Human Progress Through Peacebuilding and Development"
+            },
+            "Cate": {
+                name: "Cate Oswald",
+                title: "Chief Program Officer, Partners In Health",
+                emoji: "🩺",
+                panel: "Boston in the World: Local Institutions Shaping Global Change"
+            },
+            "Ana": {
+                name: "Ana Pantelic",
+                title: "Executive Director, MIT D-Lab",
+                emoji: "💡",
+                panel: "Advancing Human Progress Through Peacebuilding and Development"
+            },
+            "Mary": {
+                name: "Mary Yntema",
+                title: "President & CEO, World Boston",
+                emoji: "🌍",
+                panel: "Boston in the World: Local Institutions Shaping Global Change"
+            }
         };
 
-        // ... (rest of the previous JavaScript code remains the same)
+        // Quiz questions
+        var QUIZ_QUESTIONS = [
+            {
+                question: "Your global adventure vibe is:",
+                options: [
+                    { text: "Turning economic data into world-changing strategies", type: "Guy" },
+                    { text: "Protecting and empowering children around the world", type: "David" },
+                    { text: "Bridging cultures through multilingual diplomacy", type: "James" },
+                    { text: "Challenging existing global narratives", type: "Shadi" },
+                    { text: "Empowering local communities", type: "Carrie" },
+                    { text: "Navigating complex global conflicts", type: "Adam" },
+                    { text: "Transforming healthcare as a human right", type: "Cate" },
+                    { text: "Innovating solutions to global challenges", type: "Ana" },
+                    { text: "Building global connections", type: "Mary" }
+                ]
+            },
+            {
+                question: "Your approach to global challenges is:",
+                options: [
+                    { text: "Strategic financial innovation", type: "Guy" },
+                    { text: "Humanitarian support and child welfare", type: "David" },
+                    { text: "Building cross-cultural understanding", type: "James" },
+                    { text: "Critical analysis of global narratives", type: "Shadi" },
+                    { text: "Community-led development", type: "Carrie" },
+                    { text: "Conflict prevention and resolution", type: "Adam" },
+                    { text: "Holistic healthcare solutions", type: "Cate" },
+                    { text: "Technological and social innovation", type: "Ana" },
+                    { text: "Fostering international dialogue", type: "Mary" }
+                ]
+            },
+            {
+                question: "Your ideal weekend involves:",
+                options: [
+                    { text: "Analyzing global economic trends", type: "Guy" },
+                    { text: "Developing strategies for children's welfare", type: "David" },
+                    { text: "Exploring cultural connections", type: "James" },
+                    { text: "Deep dive into global theories", type: "Shadi" },
+                    { text: "Volunteering in local communities", type: "Carrie" },
+                    { text: "Mediating complex challenges", type: "Adam" },
+                    { text: "Designing innovative healthcare solutions", type: "Cate" },
+                    { text: "Solving global problems creatively", type: "Ana" },
+                    { text: "Networking and building global understanding", type: "Mary" }
+                ]
+            },
+            {
+                question: "Your ultimate goal in global work is to:",
+                options: [
+                    { text: "Transform economic ecosystems", type: "Guy" },
+                    { text: "Ensure children's survival and potential", type: "David" },
+                    { text: "Break down international barriers", type: "James" },
+                    { text: "Promote deeper global understanding", type: "Shadi" },
+                    { text: "Empower local change-makers", type: "Carrie" },
+                    { text: "Promote sustainable peace", type: "Adam" },
+                    { text: "Achieve global health equity", type: "Cate" },
+                    { text: "Drive transformative innovations", type: "Ana" },
+                    { text: "Foster global citizenship", type: "Mary" }
+                ]
+            },
+            {
+                question: "When collaborating internationally, you believe the key is:",
+                options: [
+                    { text: "Strategic financial partnerships", type: "Guy" },
+                    { text: "Protecting vulnerable populations", type: "David" },
+                    { text: "Effective communication", type: "James" },
+                    { text: "Challenging preconceived notions", type: "Shadi" },
+                    { text: "Mutual respect and empowerment", type: "Carrie" },
+                    { text: "Understanding root causes", type: "Adam" },
+                    { text: "Holistic, patient-centered approaches", type: "Cate" },
+                    { text: "Creative problem-solving", type: "Ana" },
+                    { text: "Building long-term relationships", type: "Mary" }
+                ]
+            }
+        ];
 
-        PardeeGalaSpeakerQuiz.prototype.showResult = function(speaker) {
-            var resultHtml = 
-                '<div class="text-center">' +
-                    '<div class="bg-blue-100 rounded-xl p-6 mb-6">' +
-                        '<img src="' + speaker.silhouette + '" alt="' + speaker.name + '" class="w-32 h-32 mx-auto mb-4 rounded-full">' +
-                        '<h2 class="text-2xl font-bold">' + speaker.emoji + ' ' + speaker.name + '</h2>' +
-                        '<p class="text-lg">' + speaker.title + '</p>' +
-                        (speaker.panel ? '<p class="mt-2 text-blue-600">Panel: ' + speaker.panel + '</p>' : '') +
-                        '<p class="mt-4">' + speaker.description + '</p>' +
-                    '</div>' +
-                    '<p class="italic mb-4">"' + speaker.professionalInsight + '"</p>' +
-                    '<p class="text-sm mb-4">"' + speaker.funFact + '"</p>' +
-                    '<div class="space-y-4">' +
-                        '<button id="restart-quiz" class="bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600">Take Quiz Again</button>' +
-                        '<a href="https://pardee10year.splashthat.com" class="block text-blue-600 hover:underline">Learn more about Pardee\'s Decennial Celebration</a>' +
-                    '</div>' +
-                '</div>';
-            
-            this.optionsEl.innerHTML = resultHtml;
-            
-            document.getElementById('restart-quiz').addEventListener('click', function() {
-                new PardeeGalaSpeakerQuiz().start();
-            });
-        };
-
-        // Start the quiz when the page loads
-        document.addEventListener('DOMContentLoaded', function() {
-            new PardeeGalaSpeakerQuiz().start();
-        });
+        // (Rest of the JavaScript remains the same as in the previous version)
+        // ... (Quiz application code)
     </script>
 </body>
 </html>

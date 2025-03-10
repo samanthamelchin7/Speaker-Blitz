@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pardee Decennial Gala Speaker Quiz</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gradient-to-br from-blue-50 to-blue-100 min-h-screen flex items-center justify-center">
+    <div id="quiz-container" class="w-full max-w-md bg-white rounded-2xl shadow-2xl overflow-hidden">
+        <div id="quiz-header" class="p-6 bg-gradient-to-r from-blue-400 to-blue-600 text-white">
+            <h1 class="text-3xl font-bold text-center">Which Decennial Gala Speaker Are You? 🌍</h1>
+            <h2 class="text-lg text-center text-white/80 mb-4">From Foundation to Future: Pardee's 10-Year Journey</h2>
+        </div>
+        <div id="quiz-content" class="p-6">
+            <h2 id="question" class="text-xl mb-6 text-center font-semibold text-gray-800"></h2>
+            <div id="options" class="space-y-4"></div>
+            <p id="progress" class="mt-4 text-center text-sm text-gray-600"></p>
+        </div>
+    </div>
+
+    <script>
+        // Speakers data
+        var SPEAKERS = {
+            "Guy": {
+                name: "Guy Baron",
+                title: "Global Head of Investment Advisory, Tony Blair Institute",
+                emoji: "💼",
+                silhouette: "https://via.placeholder.com/150",
+                description: "Economic transformation mastermind who sees the world as a canvas of strategic potential.",
+                funFact: "Turned Rwanda's investment ecosystem upside down!",
+                professionalInsight: "Economic strategies drive social progress."
+            },
+            "David": {
+                name: "David Barth",
+                title: "VP, International Programs, Save the Children",
+                emoji: "🌍",
+                silhouette: "https://via.placeholder.com/150",
+                description: "Champion for children's rights and global welfare",
+                funFact: "Changing children's lives globally!",
+                professionalInsight: "Every child's potential matters."
+            },
+            "James": {
+                name: "James Colimon",
+                title: "Deputy Director of Global Affairs & Protocol, City of Boston",
+                emoji: "🌐",
+                silhouette: "https://via.placeholder.com/150",
+                description: "Diplomatic bridge-builder connecting cultures",
+                funFact: "Speaks multiple languages and builds global connections",
+                professionalInsight: "Diplomacy starts with understanding."
+            }
+        };
+
+        // Quiz questions
+        var QUIZ_QUESTIONS = [
+            {
+                question: "Your global adventure vibe is:",
+                options: [
+                    { text: "Turning economic data into world-changing strategies", type: "Guy" },
+                    { text: "Protecting and empowering children around the world", type: "David" },
+                    { text: "Bridging cultures through multilingual diplomacy", type: "James" }
+                ]
+            },
+            {
+                question: "Your approach to global challenges is:",
+                options: [
+                    { text: "Strategic financial innovation", type: "Guy" },
+                    { text: "Humanitarian support and child welfare", type: "David" },
+                    { text: "Building cross-cultural understanding", type: "James" }
+                ]
+            }
+        ];
+
+        // Quiz Application
+        function PardeeGalaSpeakerQuiz() {
+            this.currentQuestion = 0;
+            this.answers = [];
+            this.questionEl = document.getElementById('question');
+            this.optionsEl = document.getElementById('options');
+            this.progressEl = document.getElementById('progress');
+        }
+
+        PardeeGalaSpeakerQuiz.prototype = {
+            start: function() {
+                this.showQuestion();
+            },
+
+            showQuestion: function() {
+                var currentQuestionData = QUIZ_QUESTIONS[this.currentQuestion];
+                this.questionEl.textContent = currentQuestionData.question;
+                
+                this.optionsEl.innerHTML = '';
+                
+                currentQuestionData.options.forEach(function(option) {
+                    var button = document.createElement('button');
+                    button.textContent = option.text;
+                    button.setAttribute('data-type', option.type);
+                    button.className = 'w-full p-3 bg-blue-50 text-blue-800 rounded-lg hover:bg-blue-100';
+                    
+                    button.addEventListener('click', this.handleAnswer.bind(this, option.type));
+                    
+                    this.optionsEl.appendChild(button);
+                }.bind(this));
+                
+                this.progressEl.textContent = 'Question ' + (this.currentQuestion + 1) + ' of ' + QUIZ_QUESTIONS.length;
+            },
+
+            handleAnswer: function(type) {
+                this.answers.push(type);
+                
+                if (this.currentQuestion < QUIZ_QUESTIONS.length - 1) {
+                    this.currentQuestion++;
+                    this.showQuestion();
+                } else {
+                    this.calculateResult();
+                }
+            },
+
+            calculateResult: function() {
+                var counts = {};
+                this.answers.forEach(function(answer) {
+                    counts[answer] = (counts[answer] || 0) + 1;
+                });
+                
+                var winner = Object.keys(counts).reduce(function(a, b) {
+                    return counts[a] > counts[b] ? a : b;
+                });
+                
+                this.showResult(SPEAKERS[winner]);
+            },
+
+            showResult: function(speaker) {
+                var resultHtml = 
+                    '<div class="text-center">' +
+                        '<div class="bg-blue-100 rounded-xl p-6 mb-6">' +
+                            '<img src="' + speaker.silhouette + '" alt="' + speaker.name + '" class="w-32 h-32 mx-auto mb-4 rounded-full">' +
+                            '<h2 class="text-2xl font-bold">' + speaker.emoji + ' ' + speaker.name + '</h2>' +
+                            '<p class="text-lg">' + speaker.title + '</p>' +
+                            '<p class="mt-4">' + speaker.description + '</p>' +
+                        '</div>' +
+                        '<p class="italic mb-4">"' + speaker.professionalInsight + '"</p>' +
+                        '<p class="text-sm mb-4">"' + speaker.funFact + '"</p>' +
+                        '<div class="space-y-4">' +
+                            '<button id="restart-quiz" class="bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600">Take Quiz Again</button>' +
+                            '<a href="https://pardee.bu.edu/decennial-celebration" class="block text-blue-600 hover:underline">Learn more about Pardee\'s Decennial Celebration</a>' +
+                        '</div>' +
+                    '</div>';
+                
+                this.optionsEl.innerHTML = resultHtml;
+                
+                document.getElementById('restart-quiz').addEventListener('click', function() {
+                    new PardeeGalaSpeakerQuiz().start();
+                });
+            }
+        };
+
+        // Start the quiz when the page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            new PardeeGalaSpeakerQuiz().start();
+        });
+    </script>
+</body>
+</html>
